@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Add your resource details here</h1>
+<form action="{{ url_for('add_resource') }}" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.title.label }}<br>
+        {{ form.title(size=32) }}
+    </p>
+    <p>
+        {{ form.description.label }}<br>
+        {{ form.description() }}
+    </p>
+    <p>
+        {{ form.url.label }}<br>
+        {{ form.url() }}
+    </p>
+    <p>
+        {{ form.category.name }}<br>
+        {{ form.category() }}
+    </p>
+    <p>{{ form.submit() }}</p>
+    <a href="{{ url_for('home') }}">Back to home</a>
+</form>
+{% endblock %}  

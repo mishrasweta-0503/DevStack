@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>All Resources</h1>
+    <a href="{{ url_for('add_resource') }}" class="btn btn-success">+ Add New Resource</a>
+</div>
+
+{% if resources %}
+    <div class="row">
+        {% for res in resources %}
+        <div class="col-md-4 mb-4"> <!-- This makes 3 columns on desktop -->
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-white">
+                    <!-- A little badge for the category -->
+                    <span class="badge bg-info text-dark">{{ res.category }}</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ res.title }}</h5>
+                    <p class="card-text text-secondary">{{ res.description }}</p>
+                </div>
+                <div class="card-footer bg-white border-top-0 d-flex justify-content-between">
+                    <a href="{{ res.url }}" target="_blank" class="btn btn-outline-primary btn-sm">Visit Link</a>
+                    <!-- We will link the delete button logic later! -->
+                    <form action="{{ url_for('delete_resources', resource_id=res.id) }}" method="POST">
+                        <button type="submit" 
+                                class="btn btn-outline-danger btn-sm" 
+                                onclick="return confirm('Are you sure you want to delete this resource?')">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="text-center mt-5">
+        <p class="lead">No resources found yet. Be the first to add one!</p>
+    </div>
+{% endif %}
+{% endblock %}

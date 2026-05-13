@@ -4,6 +4,33 @@
     <h1>All Resources</h1>
     <a href="{{ url_for('add_resource') }}" class="btn btn-success">+ Add New Resource</a>
 </div>
+<form action="{{url_for('home')}}" method="get" class="mb-5">
+    <div class="row g-3 align-items-end">
+        <div class="col-md-5">
+            <label class="form-label">Search</label>
+            <div class="input-group"> <!-- The group lives INSIDE the column -->
+                <span class="input-group-text">🔍</span>
+                <input type="text" name="search_term" class="form-control" placeholder="Search...">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Choose a category:</label>
+            <select class="form-select" name="category_term">
+                <option value="">All Categories</option>
+                <option value="Frontend">Frontend</option>
+                <option value="Backend">Backend</option>
+                <option value="Database">database</option>
+                <option value="Mobile">Mobile</option>
+                <option value="Web">Web</option>
+                <option value="Security">Security</option>
+                <option value="Full Stack">Full Stack</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>  
+    </div>
+</form>
 
 {% if resources %}
     <div class="row">

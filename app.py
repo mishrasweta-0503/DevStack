@@ -32,7 +32,14 @@ def index():
 @app.route('/home')
 @login_required
 def home():
-    resources = Resource.query.all()
+    search_term = request.args.get('search_term')
+    category_term = request.args.get('category_term')
+    query = Resource.query
+    if search_term:
+        query = query.filter(Resource.title.contains(search_term) | Resource.description.contains(search_term))
+    if category_term and category_term != "":
+        query = query.filter(Resource.category == category_term)
+    resources = query.all()
     return render_template('home.html', resources=resources)
 
 @app.route('/login', methods=['GET', 'POST'])

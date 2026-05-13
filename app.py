@@ -3,14 +3,22 @@ from models import db, User, Resource
 from forms import RegistrationForm,LoginForm,ResourceForm
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+db_path = os.path.join(basedir, 'instance', 'project.db')
+
 #configure the SQLite database, relative to the app instance folder
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = f'sqlite:///{db_path}'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #to suppress warning
-app.config['SECRET_KEY'] = 'my_top_secret' #this key is needed for forms later
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') #this key is needed for forms later
 
 db.init_app(app) #This "plugs" the database setup from models.py into this specific app.
 
@@ -26,7 +34,7 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    return 'Hello World'
+    return redirect(url_for('home'))
 
 
 @app.route('/home')

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request,redirect,url_for
+from flask import Flask, render_template, request,redirect,url_for,flash
 from models import db, User, Resource
 from forms import RegistrationForm,LoginForm,ResourceForm
 from werkzeug.security import generate_password_hash,check_password_hash
@@ -19,6 +19,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = f'sqlite:///{db_path}'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #to suppress warning
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') #this key is needed for forms later
+
+
 
 db.init_app(app) #This "plugs" the database setup from models.py into this specific app.
 
@@ -62,13 +64,20 @@ def login():
             login_user(user)
             return(redirect(url_for('home'))) #this creates a session
         else:
-            print(f"Login failed for {user.username}. Check email and password.")
+            print(f"Login failed for {user.username}. Check email and password.")   
     return render_template('login.html',form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm()
+    form = RegistrationForm(request.form)
     if form.validate_on_submit():
+        existing_user = User.query.filter(
+            (User.username == form.username.data) |
+            (User.email == form.email.data)
+        ).first()
+        if existing_user:
+            flash('Username or email already exists. Please try another one.', 'danger')
+            return redirect(url_for('register'))
         hashed_pw = generate_password_hash(form.password.data)
         new_user = User(
             username=form.username.data, 
@@ -77,7 +86,7 @@ def register():
         )
         db.session.add(new_user)
         db.session.commit()
-        print("User successfully saved to the database!")
+        flash('Your account has been created! You can now log in.', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 

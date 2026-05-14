@@ -6,7 +6,7 @@ class RegistrationForm(FlaskForm):
     username = StringField('Username', [validators.Length(min=2, max=20)])
     email = StringField('Email Address', validators = [validators.DataRequired(),validators.Length(min=6, max=35)])
     password = PasswordField('New Password', validators = [validators.DataRequired(),validators.Length(min=6, max=15)])
-    confirm_password = PasswordField('Confirm Password',validators = [validators.DataRequired(), validators.EqualTo('password')])
+    confirm_password = PasswordField('Confirm Password',validators = [validators.DataRequired(), validators.EqualTo('password', message='Passwords must match')])
     submit = SubmitField('Sign Up')
 
 

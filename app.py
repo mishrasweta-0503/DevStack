@@ -27,6 +27,7 @@ db.init_app(app) #This "plugs" the database setup from models.py into this speci
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login' #Tells it where to go if access is denied
+login_manager.login_message = None
 
 #The user_loader is the function that tells Flask-Login: "Whenever you see this ID coming from a cookie,
 #  here is how you find the actual User object in our database."

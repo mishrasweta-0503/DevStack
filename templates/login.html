@@ -1,17 +1,21 @@
 {% extends 'index.html' %}
 {% block content %}
-<h1>Login to your account</h1>
-<form action="/login" method="post">
-    {{ form.hidden_tag() }}
-    <p>
-        {{ form.email.label }}<br>
-        {{ form.email(size=32) }}
-    </p>
-    <p>
-        {{ form.password.label }}<br>
-        {{ form.password() }}
-    </p>
-    <p>{{ form.submit() }}</p>
-    <a href="/register">Don't have an account? Register here</a>
-</form>
-{% endblock %}  
+<div class="row justify-content-center">
+    <div class="col-12 col-md-6 col-lg-5">
+        <h1>Login to your account</h1>
+        <form action="/login" method="post">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.email.label(class="form-label") }}<br>
+                {{ form.email(class="form-control") }}
+            </p>
+            <p>
+                {{ form.password.label(class="form-label") }}<br>
+                {{ form.password(class="form-control") }}
+            </p>
+            <p>{{ form.submit(class="btn btn-primary w-100") }}</p>
+            <a href="/register">Don't have an account? Register here</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

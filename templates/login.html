@@ -1,21 +1,59 @@
 {% extends 'index.html' %}
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-12 col-md-6 col-lg-5">
-        <h1>Login to your account</h1>
-        <form action="/login" method="post">
-            {{ form.hidden_tag() }}
-            <p>
-                {{ form.email.label(class="form-label") }}<br>
-                {{ form.email(class="form-control") }}
-            </p>
-            <p>
-                {{ form.password.label(class="form-label") }}<br>
-                {{ form.password(class="form-control") }}
-            </p>
-            <p>{{ form.submit(class="btn btn-primary w-100") }}</p>
-            <a href="/register">Don't have an account? Register here</a>
-        </form>
+<div class="row align-items-center justify-content-center min-vh-75 g-4 py-4">
+    
+    <!-- LEFT SIDE: Hero Section (Visible on desktop & tablets) -->
+    <div class="col-12 col-md-6 text-center text-md-start">
+        <span class="badge bg-primary px-3 py-2 rounded-pill mb-3">DevStack v1.0</span>
+        <h1 class="display-4 fw-bold mb-3">Organize Your Developer Knowledge</h1>
+        <p class="lead text-secondary mb-4">
+            A centralized hub to discover, save, and manage tech resources across Frontend, Backend, Security, and more.
+        </p>
+        <div class="d-flex gap-3 justify-content-center justify-content-md-start text-muted small">
+            <div><i class="bi bi-check-circle-fill text-success me-1"></i> Categorized Tools</div>
+            <div><i class="bi bi-check-circle-fill text-success me-1"></i> Fast Search</div>
+        </div>
     </div>
+
+    <!-- RIGHT SIDE: Login Card -->
+    <div class="col-12 col-md-5 col-lg-4">
+        <div class="card border-0 shadow-lg p-4 rounded-4">
+            <h3 class="fw-bold mb-3">Sign In</h3>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+
+            <form action="/login" method="post">
+                {{ form.hidden_tag() }}
+                
+                <div class="mb-3">
+                    {{ form.email.label(class="form-label font-weight-bold") }}
+                    {{ form.email(class="form-control form-control-lg", placeholder="name@example.com") }}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-control form-control-lg") }}
+                </div>
+                
+                <div class="d-grid gap-2 mt-4">
+                    {{ form.submit(class="btn btn-primary btn-lg w-100 fw-semibold") }}
+                </div>
+                
+                <div class="text-center mt-3">
+                    <a href="/register" class="text-decoration-none">Don't have an account? Register here</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </div>
 {% endblock %}
